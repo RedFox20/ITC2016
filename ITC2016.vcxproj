@@ -45,11 +45,13 @@
     <IncludePath>$(SolutionDir);$(SolutionDir)SFML;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SFML\VS2015\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir);$(SolutionDir)SFML;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SFML\VS2015\;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

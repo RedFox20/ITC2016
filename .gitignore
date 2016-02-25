@@ -2,3 +2,9 @@
 *.opendb
 *.sdf
 /obj/x64
+/obj/Debug
+/obj/Release
+/bin/ITC2016.exe
+/bin/ITC2016.iobj
+/bin/ITC2016.ipdb
+/bin/ITC2016.pdb
