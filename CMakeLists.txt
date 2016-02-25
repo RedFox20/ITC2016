@@ -42,8 +42,9 @@ elseif(APPLE)
     target_link_libraries(${OUT} ${SFML_DIR}/sfml-system.framework)
     target_link_libraries(${OUT} ${SFML_DIR}/SFML.framework)
 elseif(UNIX)
-    target_link_libraries(${OUT} freetype jpeg x11 xrandr xcb x11-xcb xcb-randr xcb-image)
-    target_link_libraries(${OUT} opengl flac ogg vorbis vorbisenc vorbisfile openal pthread)
+    target_link_libraries(${OUT} sfml-window sfml-audio sfml-graphics sfml-network sfml-system)
+    target_link_libraries(${OUT} freetype jpeg xcb xcb-randr xcb-image)
+    target_link_libraries(${OUT} GL ogg vorbis vorbisenc vorbisfile openal pthread)
 endif()
 
 
