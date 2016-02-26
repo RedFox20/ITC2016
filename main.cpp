@@ -12,19 +12,10 @@ struct ITC2016 : public RenderWindow
 	Font    neoretro;
 	Font    neoretroShadow;
 	Font    dejavusans;
-	
-	itc::Shader  shader3d;
-	Texture mageTexture;
-	unique_ptr<BMDModel> mageModel;
-	Vertex3dBuffer mageVertexBuff;
 
 	////////// Scene ///////////
 	Sprite  itcSprite;
 	Text    mccTitle;
-	vec3    magePos;
-	vec3    mageRot;
-	vec3    cameraPos;
-	vec3    cameraTarget;
 	vector<Vertex> path;
 
 
@@ -39,14 +30,6 @@ struct ITC2016 : public RenderWindow
 		neoretro.loadFromFile("neoretro.ttf");
 		neoretroShadow.loadFromFile("neoretro-shadow.ttf");
 		dejavusans.loadFromFile("dejavusans.ttf");
-
-		// load a 3d mesh
-		mageTexture.loadFromFile("statue_mage.bmp");
-		mageModel = BMDModel::loadFromFile("statue_mage.bmd");
-		mageVertexBuff.create(mageModel->vertices(), mageModel->num_verts, 
-							  mageModel->indices(), mageModel->num_indices);
-
-		shader3d.loadShader("simple"); // loads simple.vert and simple.frag
 	}
 
 	void setupScene()
@@ -58,12 +41,6 @@ struct ITC2016 : public RenderWindow
 		auto frame = mccTitle.getLocalBounds();
 		mccTitle.setOrigin(frame.width / 2, frame.height / 2);
 		mccTitle.setPosition(size.x / 2.0f, size.y * 0.66f);
-
-		// setup 3d scene
-		magePos = vec3::ZERO;
-		mageRot = vec3::ZERO;
-		cameraPos    = vec3{0, 12, 12};
-		cameraTarget = vec3{0, 5, 0};
 	}
 
 	void drawText(Text& text, const Font& primary, const Color& mainColor, 
@@ -95,27 +72,7 @@ struct ITC2016 : public RenderWindow
 
 	void draw3d(float deltaTime)
 	{
-		// create a viewProjectionMatrix
-		mat4 proj, look;
-		proj.perspective(45.0f, (float)getSize().x, (float)getSize().y, 0.1f, 10000.0f);
-		proj.multiply(look.lookat(cameraPos, cameraTarget, vec3{0.0f,1.0f,0.0f}));
-
-		// create transformation matrix
-		mat4 modelWorld;
-		modelWorld.from_position(modelWorld, magePos);
-		modelWorld.scale({1.0f,1.0f,1.0f});
-		mat4 rot;
-		mat4::from_rotation(rot, mageRot);
-		modelWorld.multiply(rot);
-
-		// create a modelViewProjection matrix
-		mat4 modelViewProjection = proj;
-		modelViewProjection.multiply(modelWorld);
-
-		shader3d.bind();
-		shader3d.bind(u_DiffuseTex, 0, mageTexture);
-		shader3d.bind(u_Transform, modelViewProjection);
-		mageVertexBuff.draw();
+		// sorry; SFML was a bad dog
 	}
 };
 
@@ -131,7 +88,6 @@ int main()
 
 	ITC2016 game { settings };
 	game.setFramerateLimit(60);
-	glClearColor(0.25f, 0.25f, 0.25f, 1.0f);  // clear background to soft black
 	
 	////////////// Init GLEW /////////////
 	glewExperimental = true; // enable loading experimental OpenGL features
@@ -156,13 +112,10 @@ int main()
                 game.close();
 			}
         }
+		game.clear(Color(64,64,64));
 		float deltaTime = clock.restart().asSeconds();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		game.draw3d(deltaTime);
-		game.pushGLStates();
 		game.drawGui(deltaTime);
-        game.display();
-		game.popGLStates();
+		game.display();
     }
     return 0;
 }
