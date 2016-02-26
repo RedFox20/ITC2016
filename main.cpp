@@ -81,9 +81,11 @@ struct ITC2016 : public RenderWindow
 
 int main()
 {
-	// configure OpenGL 4.3
+	// configure OpenGL 3.0
 	ContextSettings settings;
 	settings.antialiasingLevel = 4;
+	settings.majorVersion = 3;
+	settings.minorVersion = 0;
 
 	ITC2016 game { settings };
 	game.setFramerateLimit(60);
