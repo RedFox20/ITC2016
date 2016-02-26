@@ -4,9 +4,10 @@ project(ITC2016 C CXX)
 add_definitions(-DSFML_STATIC)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp util.cpp util.hpp)
 set(OUT ITC2016)
 add_executable(${OUT} ${SOURCE_FILES})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 include_directories("${CMAKE_SOURCE_DIR}")
 include_directories("${CMAKE_SOURCE_DIR}/include")
 

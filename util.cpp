@@ -1,0 +1,17 @@
+#include "util.hpp"
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace itc
+{
+	bool loadTexture(Texture& outTexture, const string& filename)
+	{
+		if (outTexture.loadFromFile(filename)) {
+			outTexture.setSmooth(true);
+			return true;
+		}
+		return false;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////

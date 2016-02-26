@@ -83,6 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SFML\Audio.hpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="SFML\OpenGL.hpp" />
     <ClInclude Include="SFML\System.hpp" />
     <ClInclude Include="SFML\Window.hpp" />
+    <ClInclude Include="util.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
