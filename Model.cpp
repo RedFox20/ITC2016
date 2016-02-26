@@ -22,7 +22,7 @@ namespace itc
 		FILE* f = fopen(file.data(), "rb");
 		if (f == 0) {
 			printf("BMDModel::loadFromFile(): fopen failed %s\n", file.data());
-			return false;
+			return nullptr;
 		}
 		struct stat s;
 		fstat(fileno(f), &s);
@@ -30,7 +30,7 @@ namespace itc
 		BMDModel* m = (BMDModel*)malloc(size);
 		if (!m) {
 			printf("BMDModel::loadFromFile(): malloc %dKB failed %s\n", size/1024, file.data());
-			return false;
+			return nullptr;
 		}
 		fread(m, size, 1, f);
 		fclose(f);
