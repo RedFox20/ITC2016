@@ -37,7 +37,7 @@ namespace itc
 			glEnableVertexAttribArray(a_Pos);
 			glVertexAttribPointer(a_Tex, 2, GL_FLOAT, 0, sizeof(vertex3d), (void*)(3*sizeof(float)));
 			glEnableVertexAttribArray(a_Tex);
-			glVertexAttribPointer(a_Norm, 3, GL_FLOAT, 0, sizeof(vertex3d), (void*)(3*sizeof(float)));
+			glVertexAttribPointer(a_Norm, 3, GL_FLOAT, 0, sizeof(vertex3d), (void*)(5*sizeof(float)));
 			glEnableVertexAttribArray(a_Norm);
 		}
 		glBindVertexArray(0);
