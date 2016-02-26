@@ -84,8 +84,6 @@ int main()
 	// configure OpenGL 4.3
 	ContextSettings settings;
 	settings.antialiasingLevel = 4;
-	settings.majorVersion = 4;
-	settings.minorVersion = 3;
 
 	ITC2016 game { settings };
 	game.setFramerateLimit(60);

@@ -1,4 +1,5 @@
 #include "vertex3d.hpp"
+#include <cstring>
 #include <sys/stat.h>
 
 namespace itc
