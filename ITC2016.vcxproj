@@ -59,7 +59,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_MBCS;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;SFML_STATIC;GLEW_STATIC;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>flac.lib;freetype.lib;ogg.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-main-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;jpeg.lib;winmm.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -73,7 +73,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_MBCS;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;SFML_STATIC;GLEW_STATIC;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -82,10 +82,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GLEW\glew.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="types3d.cpp" />
     <ClCompile Include="util.cpp" />
+    <ClCompile Include="vertex3d.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GLEW\glew.h" />
+    <ClInclude Include="Model.hpp" />
     <ClInclude Include="SFML\Audio.hpp" />
     <ClInclude Include="SFML\Config.hpp" />
     <ClInclude Include="SFML\Graphics.hpp" />
@@ -94,7 +100,9 @@
     <ClInclude Include="SFML\OpenGL.hpp" />
     <ClInclude Include="SFML\System.hpp" />
     <ClInclude Include="SFML\Window.hpp" />
+    <ClInclude Include="types3d.hpp" />
     <ClInclude Include="util.hpp" />
+    <ClInclude Include="vertex3d.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

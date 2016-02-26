@@ -9,12 +9,27 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="GLEW">
+      <UniqueIdentifier>{4b746b9d-c044-43e2-bf8a-3fdf3650deb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="util.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex3d.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="GLEW\glew.c">
+      <Filter>GLEW</Filter>
+    </ClCompile>
+    <ClCompile Include="types3d.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,6 +59,18 @@
       <Filter>SFML</Filter>
     </ClInclude>
     <ClInclude Include="util.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex3d.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="GLEW\glew.h">
+      <Filter>GLEW</Filter>
+    </ClInclude>
+    <ClInclude Include="types3d.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
