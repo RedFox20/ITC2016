@@ -12,6 +12,9 @@ namespace itc
 
 	/** @return true if the texture was loaded */
 	bool loadTexture(Texture& outTexture, const string& filename);
+
+	/** @brief Simplifies Text creation */
+	Text& createText(Text& outText, const Font& font, const string& str, int size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
