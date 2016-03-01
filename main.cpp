@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "util.hpp"
-#include "Model.hpp"
+#include "Util.hpp"
+#include "Actor.hpp"
 using namespace itc;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -13,10 +13,14 @@ struct ITC2016 : public RenderWindow
 	Font    neoretroShadow;
 	Font    dejavusans;
 
+	itc::Shader simple3d;
+
 	////////// Scene ///////////
 	Sprite  itcSprite;
 	Text    mccTitle;
 	vector<Vertex> path;
+
+	Actor statueMage;
 
 
 	ITC2016(ContextSettings& settings) 
@@ -87,14 +91,18 @@ int main()
 
 	ITC2016 game { settings };
 	game.setFramerateLimit(60);
+	game.display();
 	
 	////////////// Init GLEW /////////////
-	glewExperimental = true; // enable loading experimental OpenGL features
-	GLenum status = glewInit();
-	if (status != GLEW_OK) { // init GL extension wrangler
-		fprintf(stderr, "GLEW error: %s\n", glewGetErrorString(status));
-		return EXIT_FAILURE;
+	{
+		glewExperimental = true; // enable loading experimental OpenGL features
+		GLenum status = glewInit();
+		if (status != GLEW_OK) { // init GL extension wrangler
+			fprintf(stderr, "GLEW error: %s\n", glewGetErrorString(status));
+			return EXIT_FAILURE;
+		}
 	}
+
 
 	//// Load game resources
 	Clock clock;
@@ -113,6 +121,7 @@ int main()
         }
 		game.clear(Color(64,64,64));
 		float deltaTime = clock.restart().asSeconds();
+		game.draw3d(deltaTime);
 		game.drawGui(deltaTime);
 		game.display();
     }

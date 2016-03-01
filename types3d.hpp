@@ -10,8 +10,6 @@ namespace itc
 
 	////////////////////////////////////////////////////////////////////////////////
 
-	typedef unsigned int index_t; // vertex index type 
-
 	// 2D position vector - typical UV container or 2D coordinate
 	struct vec2
 	{

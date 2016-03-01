@@ -3,20 +3,22 @@
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "types3d.hpp"
+#include "Types3D.hpp"
 
 namespace itc
 {
-	////////////////////////////////////////////////////////////////////////////////
 	using namespace std;
 
-	struct vertex3d
+	////////////////////////////////////////////////////////////////////////////////
+
+	typedef unsigned int index_t; // vertex index type 
+
+	struct vertex3d // 3d vertex type
 	{
 		vec3 pos;
 		vec2 tex;
 		vec3 norm;
 	};
-
 	
 	////////////////////////////////////////////////////////////////////////////////
 
@@ -68,7 +70,7 @@ namespace itc
 
 	////////////////////////////////////////////////////////////////////////////////
 
-	struct Shader
+	class Shader
 	{
 		GLuint program;    // linked glProgram
 		char vs_path[120]; // vert shader path
@@ -78,22 +80,31 @@ namespace itc
 		char uniforms[u_MaxUniforms];     // uniform locations
 		bool attributes[a_MaxAttributes]; // attribute present? true/false
 
+	public:
+		/** @brief Default initializes this shader object */
 		Shader();
-
+		~Shader();
 		/** @brief Loads shader from {shaderName}.frag and {shaderName}.vert */
 		bool loadShader(const string& shaderName);
-		bool reload();
+		/** @brief Reloads shader if VS or FS are modified. */
 		bool hotload();
-
+		/** @brief Forces a full recompile of the shaders */
+		bool reload();
+	private:
 		void loadUniforms();
+		void checkUniform(const char* where, ShaderUniform uniformSlot) const;
+
+	public:
+		/** @brief Binds the shader program for rendering */
 		void bind();
+		/** @brief Unbinds the shader */
 		void unbind();
-		void bind(ShaderUniform u_uniformSlot, const mat4& matrix);
-		void bind(ShaderUniform u_uniformSlot, int glTex2DSlot, unsigned glTexture);
-		void bind(ShaderUniform u_uniformSlot, int glTex2DSlot, const sf::Texture& texture);
-		void bind(ShaderUniform u_uniformSlot, const vec2& value);
-		void bind(ShaderUniform u_uniformSlot, const vec3& value);
-		void bind(ShaderUniform u_uniformSlot, const vec4& value);
+		void bind(ShaderUniform uniformSlot, const mat4& matrix);
+		void bind(ShaderUniform uniformSlot, unsigned glTexture, int glTexTarget = GL_TEXTURE_2D);
+		void bind(ShaderUniform uniformSlot, const sf::Texture& texture, int glTexTarget = GL_TEXTURE_2D);
+		void bind(ShaderUniform uniformSlot, const vec2& value);
+		void bind(ShaderUniform uniformSlot, const vec3& value);
+		void bind(ShaderUniform uniformSlot, const vec4& value);
 	};
 }
 

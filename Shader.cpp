@@ -1,5 +1,5 @@
-#include "vertex3d.hpp"
-#include <cstring>
+#include "Shader.hpp"
+#include <string.h>
 #include <sys/stat.h>
 
 namespace itc
@@ -34,11 +34,11 @@ namespace itc
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuf);
 			glBufferData(GL_ARRAY_BUFFER, numVertices*sizeof(vertex3d), vertices, GL_STATIC_DRAW);
 			// set VAO vertex attributes
-			glVertexAttribPointer(a_Pos, 3, GL_FLOAT, 0, sizeof(vertex3d), (void*)0);
+			glVertexAttribPointer(a_Pos, 3, GL_FLOAT, 0, sizeof(vertex3d), &vertices->pos);
 			glEnableVertexAttribArray(a_Pos);
-			glVertexAttribPointer(a_Tex, 2, GL_FLOAT, 0, sizeof(vertex3d), (void*)(3*sizeof(float)));
+			glVertexAttribPointer(a_Tex, 2, GL_FLOAT, 0, sizeof(vertex3d), &vertices->tex);
 			glEnableVertexAttribArray(a_Tex);
-			glVertexAttribPointer(a_Norm, 3, GL_FLOAT, 0, sizeof(vertex3d), (void*)(5*sizeof(float)));
+			glVertexAttribPointer(a_Norm, 3, GL_FLOAT, 0, sizeof(vertex3d), &vertices->norm);
 			glEnableVertexAttribArray(a_Norm);
 		}
 		glBindVertexArray(0);
@@ -121,12 +121,12 @@ namespace itc
 		*modified   = s.st_mtime;
 		size_t size = s.st_size;
 
-		char* shMem = (char*)(size <= 65536 ? alloca(size) : malloc(size));
-		fread(shMem, size, 1, f);
+		char* mem = (char*)(size <= 65536 ? alloca(s.st_size) : malloc(size));
+		fread(mem, size, 1, f);
 		fclose(f);
 
-		GLuint shader = compileShader(shMem, (int)size, shFile, type);
-		if (size > 65536) free(shMem);
+		GLuint shader = compileShader(mem, (int)size, shFile, type);
+		if (size > 65536) free(mem);
 		return shader;
 	}
 
@@ -140,6 +140,11 @@ namespace itc
 	Shader::Shader() : program(0), vs_mod(0), fs_mod(0)
 	{
 		vs_path[0] = fs_path[0] = '\0';
+	}
+
+	Shader::~Shader()
+	{
+		if (program) glDeleteProgram(program);
 	}
 
 	bool Shader::loadShader(const string & shaderName)
@@ -160,19 +165,19 @@ namespace itc
 
 		int status = vs && fs; // ok
 		if (status) {
-			glDeleteProgram(this->program);
-			GLuint program = this->program = glCreateProgram();
-			glAttachShader(program, vs);
-			glAttachShader(program, fs);
+			glDeleteProgram(program);
+			GLuint sp = program = glCreateProgram();
+			glAttachShader(sp, vs);
+			glAttachShader(sp, fs);
 
 			// bind our hardcoded attribute locations:
 			for (int i = 0; i < a_MaxAttributes; ++i)
-				glBindAttribLocation(program, i, AttributeMap[i]);
+				glBindAttribLocation(sp, i, AttributeMap[i]);
 
-			glLinkProgram(program);
-			glValidateProgram(program);
-			checkShaderLog(program); // this can be a warning
-			glGetProgramiv(program, GL_VALIDATE_STATUS, &status);
+			glLinkProgram(sp);
+			glValidateProgram(sp);
+			checkShaderLog(sp); // this can be a warning
+			glGetProgramiv(sp, GL_VALIDATE_STATUS, &status);
 			if (status) loadUniforms();
 			else fprintf(stderr, "shader::reload(%s/.frag) failed\n", vs_path);
 		}
@@ -216,40 +221,42 @@ namespace itc
 		glUseProgram(0);
 	}
 
+	void Shader::checkUniform(const char* where, ShaderUniform uniformSlot) const {
+		if (uniformSlot < 0 || u_MaxUniforms <= uniformSlot)
+			fprintf(stderr, "%s: uniform %d is invalid\n", where, uniformSlot);
+		if (uniforms[uniformSlot] == -1)
+			fprintf(stderr, "%s: uniform '%s' not found\n", where, uniform_name(uniformSlot));
+	}
 
-	static void check_uniform(const Shader& s, const char* where, ShaderUniform u_uniformSlot) {
-		if (s.uniforms[u_uniformSlot] == -1)
-			fprintf(stderr, "%s: uniform '%s' not found", where, uniform_name(u_uniformSlot));
-	}
-	void Shader::bind(ShaderUniform u_uniformSlot, const mat4& matrix)
+	void Shader::bind(ShaderUniform uniformSlot, const mat4& matrix)
 	{
-		check_uniform(*this, "shader_bind_mat()", u_uniformSlot);
-		glUniformMatrix4fv(uniforms[u_uniformSlot], 1, GL_FALSE, matrix.m);
+		checkUniform("shader_bind_mat()", uniformSlot);
+		glUniformMatrix4fv(uniforms[uniformSlot], 1, GL_FALSE, matrix.m);
 	}
-	void Shader::bind(ShaderUniform u_uniformSlot, int glTex2DSlot, unsigned glTexture)
+	void Shader::bind(ShaderUniform uniformSlot, unsigned glTexture, int glTexTarget)
 	{
-		check_uniform(*this, "shader_bind_tex()", u_uniformSlot);
-		glBindTexture(GL_TEXTURE_2D + glTex2DSlot, glTexture);
-		glUniform1i(uniforms[u_DiffuseTex], glTex2DSlot); // GL_TEXTURE_2D [glTex2DSlot]
+		checkUniform("shader_bind_tex()", uniformSlot);
+		glBindTexture(glTexTarget, glTexture);
+		glUniform1i(uniforms[uniformSlot], glTexTarget); // GL_TEXTURE_2D [glTexTarget]
 	}
-	void Shader::bind(ShaderUniform u_uniformSlot, int glTex2DSlot, const sf::Texture& texture)
+	void Shader::bind(ShaderUniform uniformSlot, const sf::Texture& texture, int glTexTarget)
 	{
-		return bind(u_uniformSlot, glTex2DSlot, texture.getNativeHandle());
+		return bind(uniformSlot, texture.getNativeHandle(), glTexTarget);
 	}
-	void Shader::bind(ShaderUniform u_uniformSlot, const vec2& value)
+	void Shader::bind(ShaderUniform uniformSlot, const vec2& value)
 	{
-		check_uniform(*this, "shader_bind_vec2()", u_uniformSlot);
-		glUniform2fv(u_uniformSlot, 1, &value.x);
+		checkUniform("shader_bind_vec2()", uniformSlot);
+		glUniform2fv(uniformSlot, 1, &value.x);
 	}
-	void Shader::bind(ShaderUniform u_uniformSlot, const vec3& value)
+	void Shader::bind(ShaderUniform uniformSlot, const vec3& value)
 	{
-		check_uniform(*this, "shader_bind_vec3()", u_uniformSlot);
-		glUniform3fv(u_uniformSlot, 1, &value.x);
+		checkUniform("shader_bind_vec3()", uniformSlot);
+		glUniform3fv(uniformSlot, 1, &value.x);
 	}
-	void Shader::bind(ShaderUniform u_uniformSlot, const vec4& value)
+	void Shader::bind(ShaderUniform uniformSlot, const vec4& value)
 	{
-		check_uniform(*this, "shader_bind_vec4()", u_uniformSlot);
-		glUniform4fv(u_uniformSlot, 1, &value.x);
+		checkUniform("shader_bind_vec4()", uniformSlot);
+		glUniform4fv(uniformSlot, 1, &value.x);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

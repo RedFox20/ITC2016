@@ -1,6 +1,6 @@
 #pragma once
-#include "vertex3d.hpp"
-#include <memory>
+#include "Shader.hpp"
+#include <memory> // unique_ptr
 
 namespace itc
 {
@@ -24,6 +24,18 @@ namespace itc
 		static unique_ptr<BMDModel> loadFromFile(const string& file);
 	private:
 		BMDModel() {}
+	};
+
+	struct StaticMesh
+	{
+		unique_ptr<BMDModel> MeshData;     // 
+		Vertex3dBuffer       Vertex3dBuff; // buffer of vertex3d elements
+
+		StaticMesh(const string& resourcePath);
+		~StaticMesh();
+
+		operator bool() const { return MeshData && Vertex3dBuff.vertexCount; }
+
 	};
 
 	////////////////////////////////////////////////////////////////////////////////

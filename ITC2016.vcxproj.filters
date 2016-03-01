@@ -17,19 +17,25 @@
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="util.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex3d.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="GLEW\glew.c">
       <Filter>GLEW</Filter>
     </ClCompile>
-    <ClCompile Include="types3d.cpp">
+    <ClCompile Include="Actor.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="Shader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMesh.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Types3D.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -58,19 +64,25 @@
     <ClInclude Include="SFML\Window.hpp">
       <Filter>SFML</Filter>
     </ClInclude>
-    <ClInclude Include="util.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="vertex3d.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="GLEW\glew.h">
       <Filter>GLEW</Filter>
     </ClInclude>
-    <ClInclude Include="types3d.hpp">
+    <ClInclude Include="Actor.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Model.hpp">
+    <ClInclude Include="Shader.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMesh.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Types3D.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

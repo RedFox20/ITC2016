@@ -82,16 +82,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="GLEW\glew.c" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="types3d.cpp" />
-    <ClCompile Include="util.cpp" />
-    <ClCompile Include="vertex3d.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="StaticMesh.cpp" />
+    <ClCompile Include="Types3D.cpp" />
+    <ClCompile Include="Util.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.hpp" />
     <ClInclude Include="GLEW\glew.h" />
-    <ClInclude Include="Model.hpp" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="StaticMesh.hpp" />
     <ClInclude Include="SFML\Audio.hpp" />
     <ClInclude Include="SFML\Config.hpp" />
     <ClInclude Include="SFML\Graphics.hpp" />
@@ -100,9 +104,9 @@
     <ClInclude Include="SFML\OpenGL.hpp" />
     <ClInclude Include="SFML\System.hpp" />
     <ClInclude Include="SFML\Window.hpp" />
-    <ClInclude Include="types3d.hpp" />
-    <ClInclude Include="util.hpp" />
-    <ClInclude Include="vertex3d.hpp" />
+    <ClInclude Include="Types3D.hpp" />
+    <ClInclude Include="Util.hpp" />
+    <ClInclude Include="Shader.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
