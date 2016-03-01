@@ -87,9 +87,10 @@ int main()
 {
 	// configure OpenGL
 	ContextSettings settings;
-	settings.antialiasingLevel = 4;
+	//settings.antialiasingLevel = 4;
 
 	ITC2016 game { settings };
+	game.setVerticalSyncEnabled(false);
 	game.setFramerateLimit(60);
 	game.display();
 	
